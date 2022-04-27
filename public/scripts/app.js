@@ -22,11 +22,6 @@ $(() => {
       title: "task 4",
       content: "This is task 4",
     },
-    {
-      id: 5,
-      title: "task 4",
-      content: "This is task 4",
-    },
   ]
 
 
@@ -34,12 +29,21 @@ $(() => {
 
   $("#tasklist-to-read").append($cardListings);
 
-  $('[data-bs-toggle="popover"]').popover({
+  let contentId = null;
+
+  $('.popover-details').on('click', (e) => {
+    contentId = e.target.id;
+    // console.log(`#popover-${contentId}`);
+  }).popover({
+    html: true,
     placement: "right",
+    title: "Popover Title ",
+    trigger: "focus",
+    // selector: '[rel="popover-test"]',
     content: function() {
-      let content = $(this).attr("data-popover-content");
-      return $(content).children(".popover-body").html()
+      return $(`#popover-${$(this)[0].id}`).html();
     },
-    title: "Popover Title "
   });
+
+
 }) 

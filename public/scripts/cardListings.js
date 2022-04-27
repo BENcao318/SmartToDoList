@@ -13,16 +13,16 @@ $(() => {
             <p>${card.content}</p>
             <a 
               href="#" 
-              data-bs-toggle="popover" 
-              data-bs-trigger="focus"
-              data-popover-content="#popover-content"
+              rel="popover"
+              class="popover-details"
+              id="content-${card.id}"
             ></a>
-
           </div>
         </div>
       </div>
 
-      <div class="d-none" id="popover-content">
+
+      <div class="d-none" id="popover-content-${card.id}">
         <div class="popover-heading">
           This is the heading for ${card.content}
         </div>
@@ -31,16 +31,22 @@ $(() => {
           <p>
             This is the body for ${card.title}
           </p>
-          <button
-            class="btn btn-primary btn-sm btn-task"
-            data-bs-toggle="modal"
-            data-bs-target="#task"
-          >
-          Edit
-          </button>
-        </div>
+          <h1> 123 </h1>
         </div>
 
+        <button
+          class="btn btn-primary btn-sm btn-task"
+          data-bs-toggle="modal"
+          data-bs-target="#task"
+        >
+          Edit
+        </button>
+        <button
+          class="btn btn-primary btn-lg"
+          data-bs-toggle="modal"
+          data-bs-target="#task"
+        > <i class="fa-solid fa-trash-can"></i>
+        </button>
       </div>
     `
   }
