@@ -58,10 +58,12 @@ WHERE id = 2;`, (err, result) => {
   console.log(result.rows[0]);
 });
 
+
+
 // testing queries
 
 // getting all tasks from user_id -ok
 // using task_id get category details (name, img, description...) -ok
 // insert data into database - ok
-// delete task_id(including all) from database ok
-// update task ok
+// delete task_id(including all) from database
+// update task
