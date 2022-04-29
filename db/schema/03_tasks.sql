@@ -1,10 +1,10 @@
--- DROP TABLE IF EXISTS tasks CASCADE;
+DROP TABLE IF EXISTS tasks CASCADE;
 CREATE TABLE tasks (
   id SERIAL PRIMARY KEY NOT NULL,
-  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  user_id INTEGER REFERENCES users(id),
   start_date DATE,
   is_completed BOOLEAN NOT NULL DEFAULT FALSE,
   is_important BOOLEAN NOT NULL DEFAULT FALSE,
-  category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE,
+  category_ INTEGER REFERENCES categories(id),
   name VARCHAR(255) NOT NULL
 );
