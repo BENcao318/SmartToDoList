@@ -9,9 +9,10 @@ $(() => {
 
   $('#edit-form').on('submit', (event) => {
     event.preventDefault();
-    console.log('testtest');
-    console.log(event);
-    console.log($('#task-name').val());
-    console.log($('#categories-select-menu').val());
+    // console.log('testtest');
+    // console.log(event);
+    // console.log($('#task-name').val());
+    // console.log($('#categories-select-menu').val());
+    console.log($('#edit-form').serialize());
   })
 })

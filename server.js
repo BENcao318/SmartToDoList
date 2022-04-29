@@ -7,6 +7,7 @@ const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+const bodyParser = require('body-parser');
 
 // PG database client/connection setup
 const { Pool } = require("pg");
@@ -18,6 +19,8 @@ db.connect();
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan("dev"));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
@@ -37,11 +40,16 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
+const tasksRoutes = require("./routes/tasks");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/api/users", usersRoutes(db));
 app.use("/api/widgets", widgetsRoutes(db));
+app.use("/api/tasks", tasksRoutes(db));
+app.get("/test", (req, res) => {
+  res.send("🤗yes");
+})
 // Note: mount other resources here, using the same pattern above
 
 // Home page

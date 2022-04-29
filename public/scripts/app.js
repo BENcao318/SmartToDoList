@@ -67,4 +67,22 @@ $(() => {
   //   zIndex: 3,
   // });
 
+  // test()
+  //   .then((json) => {
+  //     console.log(json);
+  //   })
+  // getTasks(`1="123"`)
+  //   .then((res) => {
+  //     console.log(res)
+  //   });
+  // addTask({
+  //   id: 1,
+  //   title: "task 1",
+  //   content: "This is task 1",
+  //   category: 1,
+  // },)
+  //   .then((res => {
+  //     console.log(res)
+  //   }))
+
 }) 
