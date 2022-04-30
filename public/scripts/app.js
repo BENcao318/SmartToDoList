@@ -1,49 +1,41 @@
 // Client facing scripts here
 $(() => {
 
-  const cards = [
-    {
-      id: 1,
-      title: "task 1",
-      content: "This is task 1",
-    },
-    {
-      id: 2,
-      title: "task 2",
-      content: "This is task 2",
-    },
-    {
-      id: 3,
-      title: "task 3",
-      content: "This is task 3",
-    },
-    {
-      id: 4,
-      title: "task 4",
-      content: "This is task 4",
-    },
-  ]
+  getTasksFromDB()
+    .then((res) => {
+      let tasks = res.tasks;
+      
+      // let newTask = { ...tasks[0] };
+      // delete newTask.id
+      // console.log(newTask);
+      // addTaskToDB(newTask);
+
+      cardListings.createCardList(tasks);   // Render tasks to each category div
+
+      pageRender.render();
+
+      window.tasks = tasks;
 
 
-  cardListings.createCardList(cards);
+    });
+  
 
-  $("#tasklist-to-read").append($cardListings);
 
-  let contentId = null;
+  // $("#tasklist-to-read").append($cardListings);
 
-  $('.popover-details').on('click', (e) => {
-    contentId = e.target.id;
-    // console.log(`#popover-${contentId}`);
-  }).popover({
-    html: true,
-    placement: "right",
-    title: "Popover Title ",
-    trigger: "focus",
-    // selector: '[rel="popover-test"]',
-    content: function() {
-      return $(`#popover-${$(this)[0].id}`).html();
-    },
-  });
+  // test()
+  //   .then((json) => {
+  //     console.log(json);
+  //   })
 
+  // addTask({
+  //   id: 1,
+  //   title: "task 1",
+  //   content: "This is task 1",
+  //   category: 1,
+  // },)
+  //   .then((res => {
+  //     console.log(res)
+  //   }))
 
 }) 

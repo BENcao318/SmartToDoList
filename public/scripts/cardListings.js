@@ -1,68 +1,77 @@
 $(() => {
-  const $cardListings = $(`
-    <div></div>
-  `);
   window.cardListings = {};
 
-  function createCard(card) {
+  function createCard(task) {
     return `
-      <div class="bg-light">
-        <div class="card mt-2 mb-2 shadow">
-          <div class="card-body wrap">
-            <h3>${card.title}</h3>
-            <p>${card.content}</p>
-            <a 
-              href="#" 
-              rel="popover"
-              class="popover-details"
-              id="content-${card.id}"
-            ></a>
-          </div>
+      <div class="card mt-2 mb-2 shadow bg-light">
+        <div class="card-body wrap" id="task-${task.id}">
+          <h4>${task.name}</h3>
+          <p>Task ${task.id}</p>
+
+          <a 
+            href="#" 
+            rel="popover"
+            class="popover-details"
+            id="content-${task.id}"
+          ></a>
+
+          <a          
+            class="btn btn-primary btn-sm edit-btn"
+            data-bs-toggle="modal"
+            data-bs-target="#task"
+          > Edit </a>
+          
+          <a
+            class="btn btn-primary btn-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#task"
+          > <i class="fa-solid fa-trash-can"></i>
+          </a>
+
         </div>
       </div>
 
-
-      <div class="d-none" id="popover-content-${card.id}">
+      <div class="d-none" id="popover-content-${task.id}">
         <div class="popover-heading">
-          This is the heading for ${card.content}
+          ${task.name}
         </div>
 
         <div class="popover-body">
           <p>
-            This is the body for ${card.title}
+            ${task.name}
           </p>
-          <h1> 123 </h1>
         </div>
-
-        <button
-          class="btn btn-primary btn-sm btn-task"
-          data-bs-toggle="modal"
-          data-bs-target="#task"
-        >
-          Edit
-        </button>
-        <button
-          class="btn btn-primary btn-lg"
-          data-bs-toggle="modal"
-          data-bs-target="#task"
-        > <i class="fa-solid fa-trash-can"></i>
-        </button>
-      </div>
     `
   }
 
-  function addCardToList(card) {
-    $cardListings.append(card);
+  function addCardToList(card, taskCategory) {
+
+    switch(taskCategory) {
+      case 1: 
+        $("#tasklist-to-eat").append(card);
+        break;
+      case 2: 
+        $("#tasklist-to-read").append(card);
+        break;
+      case 3: 
+        $("#tasklist-to-watch").append(card);
+        break;
+      case 4: 
+        $("#tasklist-to-buy").append(card);
+        break;
+    }
   }
 
-  function createCardList(cards) {
-    cards.forEach((card) => {
-      const taskCard = createCard(card);
-      addCardToList(taskCard);
+  function createCardList(tasks) {
+    tasks.forEach((task) => {
+      const card = createCard(task);
+      addCardToList(card, task.category_id);
     })
   }
 
-  window.$cardListings = $cardListings;
   window.cardListings.createCardList = createCardList;
+  window.cardListings.createCard = createCard;
+  window.cardListings.addCardToList = addCardToList;
+
 
 })
