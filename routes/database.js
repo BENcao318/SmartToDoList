@@ -1,16 +1,9 @@
 // PG database client/connection setup
 
 const { Pool } = require("pg");
-// const dbParams = require("../lib/db");
-// const db = new Pool(dbParams);
+const dbParams = require("../lib/db");
 
-
-const pool = new Pool({
-  user: "labber",
-  password: "labber",
-  host: "localhost",
-  database: "midterm"
-});
+const pool = new Pool(dbParams);
 
 pool.connect();
 
@@ -21,7 +14,7 @@ pool.connect();
 //   console.log(result.rows)
 // });
 
-const getTasks = function(options) {
+function getTasks(options) {
   const queryParams = [];
 
   let queryString = `
@@ -40,6 +33,19 @@ const getTasks = function(options) {
   };
 };
 
+function addTask(task) {
+  const queryParams = [];
+
+  let queryString = `
+    INSERT INTO tasks (id, user_id, name, start_date, is_completed, is_important, category_id)
+    VALUES (DEFAULT, ${task.user_id}, '${task.name}', '${task.start_date}', ${task.is_completed}, ${task.is_important}, ${task.category_id})
+    RETURNING *;
+  `;
+
+  return {
+    queryString,
+  }
+}
 // db.query(`SELECT tasks.name, users.id as user_id, users.name as user_name
 // FROM tasks
 // JOIN users on users.id = tasks.user_id
@@ -100,6 +106,7 @@ module.exports = {
       })
   },
   getTasks,
+  addTask,
 };
 
 
