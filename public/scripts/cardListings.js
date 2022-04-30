@@ -5,8 +5,8 @@ $(() => {
     return `
       <div class="card mt-2 mb-2 shadow bg-light">
         <div class="card-body wrap" id="task-${task.id}">
-          <h3>${task.title}</h3>
-          <p>${task.content}</p>
+          <h3>Task ${task.id}</h3>
+          <p>${task.name}</p>
 
           <a 
             href="#" 
@@ -33,12 +33,12 @@ $(() => {
 
       <div class="d-none" id="popover-content-${task.id}">
         <div class="popover-heading">
-          This is the heading for ${task.content}
+          ${task.name}
         </div>
 
         <div class="popover-body">
           <p>
-            This is the body for ${task.title}
+            ${task.name}
           </p>
         </div>
     `
@@ -65,7 +65,7 @@ $(() => {
   function createCardList(tasks) {
     tasks.forEach((task) => {
       const card = createCard(task);
-      addCardToList(card, task.category);
+      addCardToList(card, task.category_id);
     })
   }
 

@@ -2,9 +2,9 @@ $(() => {
   $('.edit-btn').on('click', (e) => {
     const parentId = $(e.target.parentElement).attr('id');
     const taskId = parentId.slice(5);
-
-    $('#task-name').val(tasks[taskId - 1].title);
-    $('#categories-select-menu').val(tasks[taskId - 1].category);
+    
+    $('#task-name').val(tasks[taskId - 1].name);
+    $('#categories-select-menu').val(tasks[taskId - 1].category_id);
   })
 
   $('#edit-form').on('submit', (event) => {
