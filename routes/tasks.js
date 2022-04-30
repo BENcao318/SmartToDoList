@@ -2,13 +2,20 @@ const express = require('express');
 const router = express.Router();
 
 // "/api/tasks"
-module.exports = function(db) {
+module.exports = function(database) {
+
   //GET request and send all tasks back
   router.get('/', (req, res) => {
-    let response = req.query;
-    console.log(req.query);
-    res.send(response);
+    console.log('querystring:--------------', database.getTasks(req.query).queryString)
+    console.log('queryParams:--------------', req.query)
+    database.query(database.getTasks(req.query).queryString, database.getTasks(req.query).queryParams)
+      .then((tasks) => res.send({ tasks }))
+      .catch((err) => {
+        console.error(err);
+        res.send(err);
+      })
   })
+
   //Add a task to the database
   router.post('/', (req, res) => {
     let response2 = req.body;
