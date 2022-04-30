@@ -5,6 +5,6 @@ CREATE TABLE tasks (
   start_date DATE,
   is_completed BOOLEAN NOT NULL DEFAULT FALSE,
   is_important BOOLEAN NOT NULL DEFAULT FALSE,
-  category_ INTEGER REFERENCES categories(id),
+  category_id INTEGER REFERENCES categories(id),
   name VARCHAR(255) NOT NULL
 );
