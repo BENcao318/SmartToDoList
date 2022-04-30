@@ -5,8 +5,8 @@ $(() => {
     return `
       <div class="card mt-2 mb-2 shadow bg-light">
         <div class="card-body wrap" id="task-${task.id}">
-          <h3>Task ${task.id}</h3>
-          <p>${task.name}</p>
+          <h4>${task.name}</h3>
+          <p>Task ${task.id}</p>
 
           <a 
             href="#" 
@@ -70,5 +70,8 @@ $(() => {
   }
 
   window.cardListings.createCardList = createCardList;
+  window.cardListings.createCard = createCard;
+  window.cardListings.addCardToList = addCardToList;
+
 
 })

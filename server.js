@@ -1,5 +1,5 @@
 // load .env data into process.env
-require("dotenv").config({path:__dirname+'/../.env'});
+require("dotenv").config({path:__dirname+'/.env'});
 
 // Web server config
 const PORT = process.env.PORT || 8080;
@@ -9,6 +9,7 @@ const app = express();
 const morgan = require("morgan");
 const bodyParser = require('body-parser');
 const database = require("./routes/database");
+const cors = require("cors");
 
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
@@ -17,6 +18,8 @@ const database = require("./routes/database");
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.use(cors());
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));

@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const { categorizing,  } = require('./api/apiCalls');
+
 
 // "/api/tasks"
 module.exports = function(database) {
@@ -16,22 +18,34 @@ module.exports = function(database) {
 
   //Add a task to the database
   router.post('/', (req, res) => {
-    const task = req.body;
-    console.log('---------------body', task)
-    database.query(database.addTask(task).queryString)
-      .then((task) => {
-        if(!task) {
-          res.send({ error: "error" });
-          return;
-        }
-        res.send("😊");
+    let task = req.body.name;
+    // res.send("😊");
+    // categorizing(task);
+    categorizing(task)
+      .then(result => {
+        console.log(result);
+        res.send(result);
       })
-      .catch((err) => res.send(err));
+
+      // res.send("😊");
+
+
+
+    // const taskName = req.body.name;
+    // database.query(database.addTask(task).queryString)
+    //   .then((task) => {
+    //     if(!task) {
+    //       res.send({ error: "error" });
+    //       return;
+    //     }
+    //     res.send("😊");
+    //   })
+    //   .catch((err) => res.send(err));
   });
 
   //Delete a task
   router.post('/delete', (req, res) => {
-
+    
   })
 
   //Edit / Update a task

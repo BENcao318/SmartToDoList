@@ -34,7 +34,6 @@ function getTasks(options) {
 };
 
 function addTask(task) {
-  const queryParams = [];
 
   let queryString = `
     INSERT INTO tasks (id, user_id, name, start_date, is_completed, is_important, category_id)

@@ -5,7 +5,7 @@ function test() {
   })
 }
 
-function getTasks(params) {
+function getTasksFromDB(params) {
   let url = "/api/tasks";
   if(params) {
     url += "?" + params;
@@ -15,7 +15,7 @@ function getTasks(params) {
   })
 }
 
-function addTask(data) {
+function addTaskToDB(data) {
   return $.ajax({
     method: "POST",
     url: "/api/tasks",

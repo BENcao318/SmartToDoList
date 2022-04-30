@@ -1,19 +1,24 @@
 // Client facing scripts here
 $(() => {
 
-  getTasks()
+  getTasksFromDB()
     .then((res) => {
       let tasks = res.tasks;
-      // tasks.forEach((task) => {
-      //   console.log(task)
-      // })
+      
+      // let newTask = { ...tasks[0] };
+      // delete newTask.id
+      // console.log(newTask);
+      // addTaskToDB(newTask);
+
       cardListings.createCardList(tasks);   // Render tasks to each category div
 
       pageRender.render();
 
       window.tasks = tasks;
 
+
     });
+  
 
 
   // $("#tasklist-to-read").append($cardListings);
