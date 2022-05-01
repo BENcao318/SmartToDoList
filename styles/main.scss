@@ -20,7 +20,28 @@ body {
 }
 
 .task-categories {
+  box-sizing: border-box;
   height: 800px;
+  
+
+
+
+}
+
+#tasklist-to-eat {
+  background-color: lightblue;
+}
+
+#tasklist-to-read {
+  background-color: lightgreen;
+}
+
+#tasklist-to-watch {
+  background-color: lightcoral;
+}
+
+#tasklist-to-buy {
+  background-color: green;
 }
 
 .wrap{
@@ -43,16 +64,17 @@ body {
   i {
     z-index: 0;
   }
-
 }
 
 .card {
   &:hover {
-    background-color: lightgray;
     transform: translateY(-2px);
+    background-color: lightgray;
   }
 }
 
 .main-area {
   background-color: lightgray;
 }
+
+

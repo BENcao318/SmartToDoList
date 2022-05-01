@@ -15,11 +15,11 @@ $(() => {
             id="content-${task.id}"
           ></a>
 
-          <a          
+          <button         
             class="btn btn-primary btn-sm edit-btn"
             data-bs-toggle="modal"
             data-bs-target="#task"
-          > Edit </a>
+          > Edit </button>
           
           <button
             class="btn btn-primary btn-sm delete" id="delete-${task.id}"
