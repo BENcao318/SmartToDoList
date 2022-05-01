@@ -47,7 +47,6 @@ function addTask(task) {
 }
 
 function deleteTask(taskId) {
-  console.log(taskId)
   let queryString = `
     DELETE FROM tasks WHERE id = ${taskId}
     RETURNING *;
@@ -56,8 +55,24 @@ function deleteTask(taskId) {
   return {
     queryString,
   }
-
 }
+
+function updateTask(id, taskName, category, date) {
+  let queryString = `
+    UPDATE tasks
+    SET name = '${taskName}', category_id = ${category}
+    WHERE id = ${id}
+    RETURNING category_id;
+  `;
+
+  console.log(queryString)
+
+  return {
+    queryString,
+  }
+}
+
+
 // db.query(`SELECT tasks.name, users.id as user_id, users.name as user_name
 // FROM tasks
 // JOIN users on users.id = tasks.user_id
@@ -120,6 +135,7 @@ module.exports = {
   getTasks,
   addTask,
   deleteTask,
+  updateTask,
 };
 
 
