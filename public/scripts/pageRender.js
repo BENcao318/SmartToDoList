@@ -2,38 +2,45 @@ $(() => {
   window.pageRender = {};
 
   function render() {
-    $('.popover-details').popover({
+    //popover trigger
+    $('body').popover({
       html: true,
       placement: "right",
       title: "Popover Title ",
       trigger: "click",
-      // selector: '[rel="popover-test"]',
+      selector: '[rel="popover"]',
       content: function() {
         return $(`#popover-${$(this)[0].id}`).html();
       },
     });
-
-    $('#add-task').on('click', (e) => {
-
+    //when add-task button is pressed, call the duckduckgo api in the backend to categorize the task and return the result
+    $('#add-task').on('click', () => {
       if($('#new-task').val()) {
         let task = {}; 
         task.name = $('#new-task').val().trim();
         task = { ...task, user_id: 1, start_date: '2022-08-30', is_completed: true, is_important: true }
         addTaskToDB(task)
           .then((response) => {
-            if(!JSON.parse(response)["Infobox"]){
-              console.log('no Infobox ')
+            // console.log('response', response)
+            if(response.category_id){
+              tasks.push(response);
+              let card = cardListings.createCard(response);
+              cardListings.addCardToList(card, response.category_id);
+              $('#new-task').val('');
             }
-            console.log(JSON.parse(response)["RelatedTopics"]);
-            // tasks.push(task);
-            // let card = cardListings.createCard(task);
-            // cardListings.addCardToList(card, task.category_id);
           });
       }
-
     })
-
-
+    //delete a task
+    $('.delete').on('click', (e) => {
+      const taskId = $(e.currentTarget).attr('id').slice(7)
+      console.log()
+      deleteTask({ taskId })
+        .then((res) => {
+          console.log('deleted task:',  res.result[0]);
+          $(e.currentTarget).parent().parent().remove();
+        })
+    })
   
     // $('.card').draggable({
     //   revert: 'true',
@@ -43,11 +50,6 @@ $(() => {
     // });
 
   }
-
-  function addTask(task) {
-    console.log(task);
-  }
-
 
   window.pageRender.render = render;
 })

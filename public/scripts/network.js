@@ -28,7 +28,6 @@ function deleteTask(data) {
     method: "POST",
     url: "/api/tasks/delete",
     data,
-
   })
 }
 

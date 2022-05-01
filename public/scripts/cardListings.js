@@ -3,7 +3,7 @@ $(() => {
 
   function createCard(task) {
     return `
-      <div class="card mt-2 mb-2 shadow bg-light">
+      <div class="card mt-2 mb-2 shadow bg-light" id="card-${task.id}">
         <div class="card-body wrap" id="task-${task.id}">
           <h4>${task.name}</h3>
           <p>Task ${task.id}</p>
@@ -21,12 +21,10 @@ $(() => {
             data-bs-target="#task"
           > Edit </a>
           
-          <a
-            class="btn btn-primary btn-sm"
-            data-bs-toggle="modal"
-            data-bs-target="#task"
+          <button
+            class="btn btn-primary btn-sm delete" id="delete-${task.id}"
           > <i class="fa-solid fa-trash-can"></i>
-          </a>
+          </button>
 
         </div>
       </div>
@@ -72,6 +70,5 @@ $(() => {
   window.cardListings.createCardList = createCardList;
   window.cardListings.createCard = createCard;
   window.cardListings.addCardToList = addCardToList;
-
 
 })
