@@ -42,6 +42,10 @@ $(() => {
         })
     })
     //open edit window
+    let prevTaskName = '';
+    let prevTaskCategory = 0;
+    let prevTaskDate = '';
+
     $('.edit-btn').on('click', (e) => {
       const parentId = $(e.target.parentElement).attr('id');
       const taskId = Number(parentId.slice(5));
@@ -50,24 +54,31 @@ $(() => {
       $('#task-name').val(targetTask.name);
       $('#categories-select-menu').val(targetTask.category_id);
       $('#edit-task-id').val(taskId);
+
+      prevTaskName = $('#task-name').val();
+      prevTaskCategory = $('#categories-select-menu').val();
+
     })
   
+
+
     $('#edit-form').on('submit', (event) => {
       event.preventDefault();
-      // console.log('testtest');
-      // console.log(event);
-      // console.log($('#task-name').val());
-      // console.log($('#categories-select-menu').val());
       
       const data = $('#edit-form').serialize() + `&id=${$('#edit-task-id').val()}`;
       const cardId = `card-${$('#edit-task-id').val()}`;
 
-
-      editTask(data)
-        .then(json => {
-          changeCardCategory(cardId, json.result[0].category_id);
-          $('.modal').modal('toggle');
-        })
+      if(prevTaskCategory === $('#task-name').val() || prevTaskCategory === $('#categories-select-menu').val()) {
+        $('.modal').modal('toggle');
+      } else {
+        editTask(data)
+          .then(json => {
+            changeCardCategory(cardId, json.result[0].category_id);
+            prevTaskName = $('#task-name').val();
+            prevTaskCategory = $('#categories-select-menu').val();
+            $('.modal').modal('toggle');
+          })
+      }
     })
 
     function changeCardCategory(cardId, categoryId) {
@@ -94,12 +105,12 @@ $(() => {
 
     }
 
-    // $('.card').draggable({
-    //   revert: 'true',
-    //   helper: 'clone',
-    //   opacity: '0.8',
-    //   zIndex: 3,
-    // });
+    $('.card').draggable({
+      revert: 'true',
+      helper: 'clone',
+      opacity: '0.8',
+      zIndex: 3,
+    });
 
   }
 
