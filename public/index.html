@@ -42,8 +42,6 @@
     <script type="text/javascript" src="/scripts/pageRender.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript" src="/scripts/network.js"></script>
-    <script type="text/javascript" src="/scripts/taskEditing.js"></script>
-
 
     <title>Smart-To-Do</title>
   </head>
@@ -154,13 +152,13 @@
             <p class="lead">Change the task</p>
             <form id="edit-form">
               <div class="mb-4">
-                <label for="task-name" class="col-form-label">
+                <label for="taskName" class="col-form-label">
                   Task Name:
                 </label>
-                <input type="text" class="form-control" id="task-name" name="task-name"/>
+                <input type="text" class="form-control" id="task-name" name="taskName"/>
               </div>
               <div class="mb-3 ">
-                <select id="categories-select-menu" name="categories" class="form-select">
+                <select id="categories-select-menu" name="category" class="form-select">
                   <option value=1>To Eat</option>
                   <option value=2>To Read</option>
                   <option value=3>To Watch</option>
@@ -169,12 +167,13 @@
               </div>
               <div class="mb-3">
                 <label for="important" class="col-form-label">Important</label>
-                <input type="checkbox" id="important" name="is-important"/>
+                <input type="checkbox" id="important" name="isImportant"/>
               </div>
               <div class="mb-3">
                 <label for="date" class="col-form-label">Date:</label>
                 <input type="tel" class="form-control" id="date" name="date"/>
               </div>
+              <div id="edit-task-id" name="taskId"></div>
 
               <button
                 type="button"

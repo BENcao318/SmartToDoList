@@ -1,13 +1,13 @@
 INSERT INTO categories (id, name)
-VALUES (DEFAULT, 'To read');
+VALUES (DEFAULT, 'restaurants');
 
 INSERT INTO categories (id, name)
-VALUES (DEFAULT, 'To buy');
+VALUES (DEFAULT, 'books');
 
 INSERT INTO categories (id, name)
-VALUES (DEFAULT, 'To watch');
+VALUES (DEFAULT, 'movies');
 
 INSERT INTO categories (id, name)
-VALUES (DEFAULT, 'To eat');
+VALUES (DEFAULT, 'products');
 
 -- category name is the action

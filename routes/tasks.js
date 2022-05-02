@@ -39,18 +39,10 @@ module.exports = function(database) {
           })
           .catch((err) => res.send(err));
       })
-
-      // res.send("😊");
-
-
-
-    // const taskName = req.body.name;
-
   });
 
   //Delete a task
   router.post('/delete', (req, res) => {
-
     database.query(database.deleteTask(req.body.taskId).queryString)
       .then(result => res.send({ result }))
       .catch((error) => {
@@ -62,7 +54,13 @@ module.exports = function(database) {
 
   //Edit / Update a task
   router.post('/update', (req, res) => {
-
+    const { taskName, category, id, date } = req.body;
+    database.query(database.updateTask(id, taskName, category, date).queryString)
+      .then(result => res.send({ result }))
+      .catch((error) => {
+        console.log(err);
+        res.send(err);
+      })
   })
 
   //GET task details
