@@ -26,6 +26,9 @@
     <link rel="stylesheet" href="/styles/main.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&family=Bungee&family=Source+Sans+Pro:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet">
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
@@ -46,7 +49,7 @@
   </head>
 
   <body>
-    <nav class="navbar bg-dark navbar-expand-lg text-white py-3">
+    <nav class="navbar sticky-top bg-dark navbar-expand-lg text-white py-3">
       <div class="container">
         <a class="navbar-brand" href="#">
           <img src="/images/myTodoLogo.png" width="150" height="90" class="d-inline-block align-top" alt="">
@@ -95,31 +98,39 @@
       <div class="container h-100">
         <div class="row gx-4">
           <div
-            class="col-md rounded mx-3 task-categories overflow-auto shadow"
+            class="col-md rounded mx-3 task-categories overflow-auto shadow "
             id="tasklist-to-eat"
           >
-            <p class="text-justify"><h1 class="text-white">TO EAT  <i class="fa-solid fa-utensils"></i></h1></p>
+          <div class = "d-flex align-items-center justify-content-center" >
+            <p class="text-justify " id = "eat-heading"><h1 class="text-white ">EAT  <i class=" fa-solid fa-utensils"></i></h1></p>
+          </div>
           </div>
 
           <div
             class="col-md rounded mx-3 task-categories overflow-auto shadow"
             id="tasklist-to-read"
           >
-            <p class="text-justify"><h1 class="text-white">TO READ  <i class="fa-solid fa-book"></i></h1></p>
+          <div class = "d-flex align-items-center justify-content-center">
+            <p class="text-justify"><h1 class="text-white">READ  <i class="fa-solid fa-book"></i></h1></p>
+          </div>
           </div>
 
           <div
             class="col-md rounded mx-3 task-categories overflow-auto shadow"
             id="tasklist-to-watch"
           >
-            <p class="text-justify"><h1 class="text-white">TO WATCH  <i class="fa-solid fa-video"></i></h1></p>
+          <div class = "d-flex align-items-center justify-content-center">
+            <p class="text-justify"><h1 class="text-white">WATCH  <i class="fa-solid fa-video"></i></h1></p>
+          </div>
           </div>
 
           <div
             class="col-md rounded mx-3 task-categories overflow-auto shadow"
             id="tasklist-to-buy"
           >
-            <p class="text-justify"><h1 class="text-white">TO BUY  <i class="fa-solid fa-cart-shopping"></i></h1></p>
+          <div class = "d-flex align-items-center justify-content-center">
+            <p class="text-justify"><h1 class="text-white">BUY  <i class="fa-solid fa-cart-shopping"></i></h1></p>
+          </div>
           </div>
 
         </div>
