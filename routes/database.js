@@ -34,7 +34,6 @@ function getTasks(options) {
 };
 
 function addTask(task) {
-
   let queryString = `
     INSERT INTO tasks (id, user_id, name, start_date, is_completed, is_important, category_id)
     VALUES (DEFAULT, ${task.user_id}, '${task.name}', '${task.start_date}', ${task.is_completed}, ${task.is_important}, ${task.category_id})
@@ -63,6 +62,53 @@ function updateTask(id, taskName, category, date) {
     SET name = '${taskName}', category_id = ${category}
     WHERE id = ${id}
     RETURNING category_id;
+  `;
+
+  return {
+    queryString,
+  }
+}
+
+function getCategoryId(taskId) {
+    let queryString = `
+      SELECT category_id FROM tasks
+      WHERE id = ${taskId};
+    `;
+
+  return {
+    queryString,
+  }
+}
+
+function getCategoryName(categoryId) {
+  let queryString = `
+    SELECT name FROM categories
+    WHERE id = ${categoryId};
+  `;
+
+  return {
+    queryString,
+  }
+}
+
+function getTaskDetails(taskId, categoryName) {
+  let queryString = `
+    SELECT * FROM ${categoryName}
+    WHERE task_id = ${taskId};
+  `;
+
+  console.log(queryString);
+
+  return {
+    queryString,
+  }
+}
+
+function addRestaurantDetails(params) {
+  let queryString = `
+    INSERT INTO restaurants (id, category_id, task_id, rating, name, location, description, img)
+    VALUES (DEFAULT, ${params.category_id}, ${params.task_id}, ${params.rating}, '${params.name}', '${params.location}', '${params.description}', '${params.img}')
+    RETURNING *;
   `;
 
   console.log(queryString)
@@ -136,6 +182,10 @@ module.exports = {
   addTask,
   deleteTask,
   updateTask,
+  getCategoryId,
+  getCategoryName,
+  getTaskDetails,
+  addRestaurantDetails,
 };
 
 

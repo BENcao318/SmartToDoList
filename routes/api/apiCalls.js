@@ -1,4 +1,8 @@
 const request = require('request-promise-native');
+const yelp = require('yelp-fusion');
+
+const yelpAPIkey = '1YYF0nzWDW5FhQA9nst65Py_3klJ7mCBqqM-1Kv2rQAnSnaaI9BD2e1PXz7B4Hs-1gw6GtSKUwRhhuLlFwOBx22iT6YMXHDDI_CDIrgb4kbfvCwv5uojtFol3YhoYnYx';
+const client = yelp.client(yelpAPIkey);
 
 function categorizing(task) {
   // console.log(task)
@@ -9,6 +13,34 @@ function categorizing(task) {
 
 
 
+//Yelp Search for Restaurants To Eat 
+function yelpAPISearch(keyword) {
+  return client.search({
+    term: keyword,
+    location: 'toronto, on',
+    limit: 3,
+  }).then(response => {
+    return response.jsonBody;
+  }).catch(e => {
+    console.log(e);
+  });  
+  // client.businessMatch({
+  //   name: 'Pannikin Coffee & Tea',
+  //   address1: '510 N Coast Hwy 101',
+  //   address2: 'Encinitas, CA 92024',
+  //   city: 'Encinitas',
+  //   state: 'CA',
+  //   country: 'US'
+  // }).then(response => {
+  //   console.log(response.jsonBody.businesses);
+  // }).catch(e => {
+  //   console.log(e);
+  // });
+}
+
+
+
 module.exports = {
   categorizing,
+  yelpAPISearch,
 }

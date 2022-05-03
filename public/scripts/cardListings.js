@@ -4,8 +4,9 @@ $(() => {
   function createCard(task) {
     return `
       <div class="card mt-2 mb-2 shadow bg-light" id="card-${task.id}">
-        <div class="card-body wrap" id="task-${task.id}">
-          <h4>${task.name}</h3>
+        <div class="card-body wrap" id="task-${task.id}" name="${task.name}">
+        
+          <h3 id="popover-task-name">${task.name}</h3>
           <p>Task ${task.id}</p>
 
           <a 
@@ -28,17 +29,6 @@ $(() => {
 
         </div>
       </div>
-
-      <div class="d-none" id="popover-content-${task.id}">
-        <div class="popover-heading">
-          ${task.name}
-        </div>
-
-        <div class="popover-body">
-          <p>
-            ${task.name}
-          </p>
-        </div>
     `
   }
 
@@ -72,3 +62,15 @@ $(() => {
   window.cardListings.addCardToList = addCardToList;
 
 })
+
+{/* <div class="d-none" id="popover-content-${task.id}">
+<div class="popover-heading">
+  ${task.name}
+  <img src="https://s3-media3.fl.yelpcdn.com/bphoto/M_5I6wNl_Uy3xPthftggxw/o.jpg" alt="images" width="200" height="300">
+</div>
+
+<div class="popover-body">
+  <p>
+    ${task.name}
+  </p>
+</div> */}

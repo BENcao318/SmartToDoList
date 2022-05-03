@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { categorizing,  } = require('./api/apiCalls');
+const { categorizing, yelpAPISearch,  } = require('./api/apiCalls');
 const { processDuckDuckGoSearchResult } = require('./api/keywords');
+const { getCategoryName, addRestaurantDetails } = require('./database');
 
 
 // "/api/tasks"
@@ -25,9 +26,7 @@ module.exports = function(database) {
     categorizing(task)
       .then(result => {
         const categoryId = processDuckDuckGoSearchResult(JSON.parse(result));
-        // console.log('id----------------------:', categoryId);
-        const response = { ...req.body, category_id: categoryId};
-        return response;
+        return { ...req.body, category_id: categoryId};
       }).then((task) => {
         database.query(database.addTask(task).queryString)
           .then((task) => {
@@ -64,8 +63,55 @@ module.exports = function(database) {
   })
 
   //GET task details
-  router.post('/details', (req, res) => {
-    
+  router.get('/details/:taskId/:taskName', (req, res) => {
+    // console.log('request:------', req.params);
+    const taskId = req.params.taskId;
+    const taskName = req.params.taskName;
+
+    database.query(database.getCategoryId(taskId).queryString)
+      .then((result) => {
+        const categoryId = result[0].category_id;
+
+        database.query(database.getCategoryName(categoryId).queryString)
+          .then((result) => {
+            const categoryName = result[0].name;
+
+            database.query(database.getTaskDetails(taskId, categoryName).queryString)
+              .then((result) => {
+                if(result.length === 0) {
+                  if(categoryId === 1){
+                    yelpAPISearch(taskName)
+                      .then((result) => {
+                        const apiResult = result.businesses[0];
+
+                        const restaurantInfo = {
+                          category_id: categoryId,
+                          task_id: parseInt(taskId),
+                          rating: Number(apiResult.rating),
+                          name: taskName,
+                          location: `${apiResult.location.address1}, ${apiResult.location.city}`,
+                          description: 'desc',
+                          img: apiResult.image_url
+                        }
+                        database.query(database.addRestaurantDetails(restaurantInfo).queryString)
+                          .then((result) => {
+                            result[0]['category'] = categoryName;
+                            console.log(result[0])
+                            res.send(result);
+                          })
+                      })
+
+                  }
+                } else {
+                  result[0]['category'] = categoryName;
+                  res.send(result);
+                }
+              })
+          })
+      })
+    // const apiSearchResult = ;
+    // console.log(apiSearchResult)
+    // res.send(apiSearchResult);
   })
   
 

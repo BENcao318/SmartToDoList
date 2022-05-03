@@ -39,8 +39,10 @@ function editTask(data) {
   })
 }
 
-function getTaskDetails(data) {
+function getTaskDetails(params) {
+  let url = `/api/tasks/details/${params.taskId}/${params.taskName}`;
+
   return $.ajax({
-    url: "/api/tasks/details",
+    url,
   })
 }
