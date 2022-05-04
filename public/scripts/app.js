@@ -15,4 +15,9 @@ $(() => {
       pageRender.render();
 
       window.tasks = tasks;
+
+
     });
+
+
+}) 
