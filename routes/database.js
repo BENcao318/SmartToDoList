@@ -7,13 +7,6 @@ const pool = new Pool(dbParams);
 
 pool.connect();
 
-// db.query(`SELECT * FROM users; `, (err, result) => {
-//   if (err) {
-//     return console.error('error executing query', err.stack)
-//   }
-//   console.log(result.rows)
-// });
-
 function getTasks(options) {
   const queryParams = [];
 
@@ -132,51 +125,19 @@ function addBookDetails(params) {
   }
 }
 
+function addMovieDetails(params) {
+  let queryString = `
+    INSERT INTO movies (id, category_id, task_id, rank, name, year_created, actors, img)
+    VALUES (DEFAULT, ${params.category_id}, ${params.task_id}, ${params.rank}, '${params.name}', ${params.year_created}, '${params.actors}', '${params.img}')
+    RETURNING *;
+  `;
 
-// db.query(`SELECT tasks.name, users.id as user_id, users.name as user_name
-// FROM tasks
-// JOIN users on users.id = tasks.user_id
-// WHERE users.id = 3; `, (err, result) => {
-//   if (err) {
-//     return console.error('error executing query', err.stack)
-//   }
-//   // console.log(result.rows[0])
-// });
+  console.log(queryString)
 
-// db.query(`INSERT INTO tasks (id, user_id, name, start_date, is_completed, is_important, category_id)
-// VALUES (DEFAULT, 3, 'Read Harry Potter', '2022-05-25', FALSE, TRUE, 1); `, (err, result) => {
-//   if (err) {
-//     return console.error('error executing query', err.stack)
-//   }
-//   console.log(result.rows[0]);
-// });
-
-// db.query(`SELECT rating, movies.name, year_created, description, img
-// FROM movies
-// LEFT OUTER JOIN tasks
-// ON movies = tasks;`, (err, result) => {
-//   if (err) {
-//     return console.error('error executing query', err.stack)
-//   }
-//   console.log(result.rows[0]);
-// });
-
-// db.query(`DELETE FROM tasks WHERE id = 5;`, (err, result) => {
-//   if (err) {
-//     return console.error('error executing query', err.stack)
-//   }
-//   console.log(result.rows[0]);
-// });
-
-// db.query(`UPDATE tasks
-// SET is_completed = TRUE
-// WHERE id = 2;`, (err, result) => {
-//   if (err) {
-//     return console.error('error executing query', err.stack)
-//   }
-//   console.log(result.rows[0]);
-// });
-
+  return {
+    queryString,
+  }
+}
 
 module.exports = {
   query: (queryString, queryParams) => {
@@ -201,6 +162,7 @@ module.exports = {
   getTaskDetails,
   addRestaurantDetails,
   addBookDetails,
+  addMovieDetails,
 };
 
 

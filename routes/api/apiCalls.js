@@ -1,6 +1,6 @@
 const request = require('request-promise-native');
 const yelp = require('yelp-fusion');
-
+const axios = require('axios');
 
 const yelpAPIkey = '1YYF0nzWDW5FhQA9nst65Py_3klJ7mCBqqM-1Kv2rQAnSnaaI9BD2e1PXz7B4Hs-1gw6GtSKUwRhhuLlFwOBx22iT6YMXHDDI_CDIrgb4kbfvCwv5uojtFol3YhoYnYx';
 const client = yelp.client(yelpAPIkey);
@@ -66,10 +66,26 @@ function escapeSingleQuote(string) {
   return newStr;
 }
 
+function moviesAPISearch(keyword) {
+  const options = {
+    method: 'GET',
+    url: 'https://online-movie-database.p.rapidapi.com/auto-complete',
+    params: {q: keyword, limit: '6'},
+    headers: {
+      'X-RapidAPI-Host': 'online-movie-database.p.rapidapi.com',
+      'X-RapidAPI-Key': 'f78ecbace5mshf59f58fb4f4000ap14ea9fjsndb925fd9be2b'
+    }
+  };
+  
+  return axios.request(options);
+}
+
+moviesAPISearch('the batman');
+
 module.exports = {
   categorizing,
   escapeSingleQuote,
   yelpAPISearch,
   googleBooksOptions,
-
+  moviesAPISearch,
 }

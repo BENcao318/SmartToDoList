@@ -2,10 +2,11 @@ DROP TABLE IF EXISTS movies CASCADE;
 CREATE TABLE movies (
   id SERIAL PRIMARY KEY NOT NULL,
   category_id INTEGER REFERENCES categories(id),
-  rating SMALLINT NOT NULL DEFAULT 0,
+  rank SMALLINT NOT NULL DEFAULT 0,
   name VARCHAR(255) NOT NULL,
   year_created SMALLINT NOT NULL,
-  description TEXT,
+  actors TEXT,
   img VARCHAR(255) NOT NULL,
   task_id INTEGER REFERENCES tasks(id) ON DELETE CASCADE
 );
+

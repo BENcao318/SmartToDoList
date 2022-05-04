@@ -192,6 +192,25 @@ $(() => {
           Powered by <img src='../images/googleBooksIcon.png' alt="images" width="60" heigth="20">
       `)
       break;
+      case 'movies':
+        popoverContent = (`      
+        <div class="popover-body" id="popover-content">
+          <div>
+            <h4>${taskDetail.name}</h4>
+            <img src=${taskDetail.img} alt="images" width="200" height="200">
+          </div>
+          <br>
+          <div>
+            Stars: ${taskDetail.actors}
+          </div>
+    
+          <div>
+            Rank: ${taskDetail.rank}
+          </div>
+          <br>
+          Powered by <img src='../images/apiDojoLogo.jpg' alt="images" width="30" heigth="30">
+      `)
+      break;
 
     }
 
