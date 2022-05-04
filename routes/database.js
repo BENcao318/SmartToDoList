@@ -118,6 +118,20 @@ function addRestaurantDetails(params) {
   }
 }
 
+function addBookDetails(params) {
+  let queryString = `
+    INSERT INTO books (id, category_id, task_id, rating, name, author, description, img, year_created)
+    VALUES (DEFAULT, ${params.category_id}, ${params.task_id}, ${params.rating}, '${params.name}', '${params.author}', '${params.description}', '${params.img}', ${params.year_created})
+    RETURNING *;
+  `;
+
+  console.log(queryString)
+
+  return {
+    queryString,
+  }
+}
+
 
 // db.query(`SELECT tasks.name, users.id as user_id, users.name as user_name
 // FROM tasks
@@ -186,6 +200,7 @@ module.exports = {
   getCategoryName,
   getTaskDetails,
   addRestaurantDetails,
+  addBookDetails,
 };
 
 

@@ -6,5 +6,5 @@ CREATE TABLE products (
   name VARCHAR(255) NOT NULL,
   description TEXT,
   img VARCHAR(255) NOT NULL,
-  task_id INTEGER REFERENCES tasks(id)
+  task_id INTEGER REFERENCES tasks(id) ON DELETE CASCADE
 );

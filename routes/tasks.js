@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { categorizing, yelpAPISearch,  } = require('./api/apiCalls');
+const { categorizing, yelpAPISearch, googleBooksOptions, escapeSingleQuote,  } = require('./api/apiCalls');
 const { processDuckDuckGoSearchResult } = require('./api/keywords');
-const { getCategoryName, addRestaurantDetails } = require('./database');
 
+const googleBooksAPISearch = require('google-books-search');
 
 // "/api/tasks"
 module.exports = function(database) {
@@ -79,6 +79,7 @@ module.exports = function(database) {
             database.query(database.getTaskDetails(taskId, categoryName).queryString)
               .then((result) => {
                 if(result.length === 0) {
+
                   if(categoryId === 1){
                     yelpAPISearch(taskName)
                       .then((result) => {
@@ -100,9 +101,36 @@ module.exports = function(database) {
                             res.send(result);
                           })
                       })
+                  } else if(categoryId === 2) {
+                    googleBooksAPISearch.search(taskName, googleBooksOptions(), function(error, response) {
+                      if (error) {
+                          console.log(error);
+                      } else {
+                          const apiResult = response[0];
 
+                          const bookInfo = {
+                            category_id: categoryId,
+                            task_id: parseInt(taskId),
+                            rating: apiResult.averageRating ? apiResult.averageRating : 0,
+                            name: apiResult.title,
+                            year_created: 2019,
+                            description: escapeSingleQuote(apiResult.description),
+                            img: apiResult.thumbnail,
+                            author: Array.isArray(apiResult.authors) ? apiResult.authors.join(', ') : apiResult.authors,
+                          }
+
+                          database.query(database.addBookDetails(bookInfo).queryString)
+                            .then((result) => {
+                              result[0]['category'] = categoryName;
+                              console.log(result[0])
+                              res.send(result);
+                            })
+                        }
+                      });  
                   }
+
                 } else {
+                  console.log('got data from database');
                   result[0]['category'] = categoryName;
                   res.send(result);
                 }

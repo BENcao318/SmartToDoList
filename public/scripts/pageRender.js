@@ -20,20 +20,8 @@ $(() => {
             const taskDetail = result[0];
             const taskDetailCategory = result[0].category;
             console.log(taskDetail);
-            const $popoverContent = $(`      
-              <div class="popover-body" id="popover-content">
-                <div>
-                  <img src=${taskDetail.img} alt="images" width="200" height="200">
-                </div>
 
-                <div>
-                  ${taskDetail.location}
-                </div>
-
-                <div>
-                  Rating: ${taskDetail.rating} / 5
-                </div>
-            `).html()
+            const $popoverContent = $(createPopoverContent(taskDetail, taskDetailCategory)).html()
 
             $('#' + tmpId).append($popoverContent);
           })
@@ -60,12 +48,11 @@ $(() => {
       }
     })
     //delete a task
-    $('.delete').on('click', (e) => {
+    $('body').on('click', '.delete', (e) => {
       const taskId = $(e.currentTarget).attr('id').slice(7)
-      console.log()
       deleteTask({ taskId })
         .then((res) => {
-          console.log('deleted task:',  res.result[0]);
+          console.log('deleted task:',  res);
           $(e.currentTarget).parent().parent().remove();
         })
     })
@@ -74,7 +61,7 @@ $(() => {
     let prevTaskCategory = 0;
     let prevTaskDate = '';
 
-    $('.edit-btn').on('click', (e) => {
+    $('body').on('click', '.edit-btn', (e) => {
       const parentId = $(e.target.parentElement).attr('id');
       const taskId = Number(parentId.slice(5));
       const targetTask = tasks.find(task => task.id === taskId);
@@ -109,29 +96,7 @@ $(() => {
       }
     })
 
-    function changeCardCategory(cardId, categoryId) {
-      let kanbanId = '';
-      switch (categoryId) {
-        case 1:
-          kanbanId = "tasklist-to-eat";
-          break;
-        case 2:
-          kanbanId = "tasklist-to-read";
-          break;
-        case 3:
-          kanbanId = "tasklist-to-watch";
-          break;
-        case 4:
-          kanbanId = "tasklist-to-buy";
-          break;
-      }
 
-      //copy the card to edit and append it to target category kanban then remove the card from the original kanban
-      let copyCard = $(`#${cardId}`).clone();
-      $(`#${cardId}`).remove();
-      $(`#${kanbanId}`).append(copyCard);
-
-    }
     
     $('.card').draggable({
       revert: 'true',
@@ -160,6 +125,80 @@ $(() => {
 
   }
 
+  function changeCardCategory(cardId, categoryId) {
+    let kanbanId = '';
+    switch (categoryId) {
+      case 1:
+        kanbanId = "tasklist-to-eat";
+        break;
+      case 2:
+        kanbanId = "tasklist-to-read";
+        break;
+      case 3:
+        kanbanId = "tasklist-to-watch";
+        break;
+      case 4:
+        kanbanId = "tasklist-to-buy";
+        break;
+    }
+
+    //copy the card to edit and append it to target category kanban then remove the card from the original kanban
+    let copyCard = $(`#${cardId}`).clone();
+    $(`#${cardId}`).remove();
+    $(`#${kanbanId}`).append(copyCard);
+
+  }
+
+  function createPopoverContent(taskDetail, taskDetailCategory) {
+    let popoverContent = ``;
+
+    switch(taskDetailCategory) {
+      case 'restaurants':
+          popoverContent = (`      
+          <div class="popover-body" id="popover-content">
+            <div>
+              <h4>${taskDetail.name}</h4>
+              <img src=${taskDetail.img} alt="images" width="200" height="200">
+            </div>
+      
+            <div>
+              ${taskDetail.location}
+            </div>
+      
+            <div>
+              Rating: ${taskDetail.rating} / 5
+            </div>
+            <br>
+            Powered by <img src='../images/yelpLogo.png' alt="images" width="60" heigth="20">
+        `)
+      break;
+      case 'books' :
+        popoverContent = (`      
+        <div class="popover-body" id="popover-content">
+          <div>
+            <h4>${taskDetail.name}</h4>
+            <br>
+            <img src=${taskDetail.img} alt="images" width="200" height="200">
+          </div>
+          <br>
+          <div>
+            Author: ${taskDetail.author}
+          </div>
+    
+          <div>
+            Rating: ${taskDetail.rating} / 5
+          </div>
+          <br>
+          Powered by <img src='../images/googleBooksIcon.png' alt="images" width="60" heigth="20">
+      `)
+      break;
+
+    }
+
+    return popoverContent;
+  }
+
   window.pageRender.render = render;
 })
+
 
