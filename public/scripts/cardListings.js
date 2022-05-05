@@ -1,13 +1,15 @@
 $(() => {
   window.cardListings = {};
+  window.helper = {};
 
   function createCard(task) {
+    task = { ...task, start_date: convertDate(task.start_date) };
     return `
-      <div class="card mt-2 mb-2 shadow bg-light" id="card-${task.id}">
+      <div class="card mt-2 mb-2 shadow bg-light" id="card-${task.id}" status="not changed">
         <div class="card-body wrap" id="task-${task.id}" name="${task.name}">
         
           <h3 id="popover-task-name">${task.name}</h3>
-          <p>Task ${task.id}</p>
+          <p>${task.start_date}</p>
 
           <a 
             href="#" 
@@ -50,6 +52,76 @@ $(() => {
     }
   }
 
+  function createPopoverContent(taskDetail, taskDetailCategory) {
+    let popoverContent = ``;
+
+    switch(taskDetailCategory) {
+      case 'restaurants':
+          popoverContent = (`      
+          <div class="popover-body" id="popover-content">
+            <div>
+              <h4>${taskDetail.name}</h4>
+              <img src=${taskDetail.img} alt="images" width="200" height="200">
+            </div>
+      
+            <div>
+              ${taskDetail.location}
+            </div>
+      
+            <div>
+              Rating: ${taskDetail.rating} / 5
+            </div>
+            <br>
+            Powered by <img src='../images/yelpLogo.png' alt="images" width="60" heigth="20">
+        `)
+      break;
+      case 'books' :
+        popoverContent = (`      
+        <div class="popover-body" id="popover-content">
+          <div>
+            <h4>${taskDetail.name}</h4>
+            <br>
+            <img src=${taskDetail.img} alt="images" width="200" height="200">
+          </div>
+          <br>
+          <div>
+            Author: ${taskDetail.author}
+          </div>
+    
+          <div>
+            Rating: ${taskDetail.rating} / 5
+          </div>
+          <br>
+          Powered by <img src='../images/googleBooksIcon.png' alt="images" width="60" heigth="20">
+      `)
+      break;
+      case 'movies':
+        popoverContent = (`      
+        <div class="popover-body" id="popover-content">
+          <div>
+            <h4>${taskDetail.name}</h4>
+            <img src=${taskDetail.img} alt="images" width="200" height="200">
+          </div>
+          <br>
+          <div>
+            Stars: ${taskDetail.actors}
+          </div>
+    
+          <div>
+            Year: ${taskDetail.year_created}
+          </div>
+          <div>
+            Rank: ${taskDetail.rank}
+          </div>
+          <br>
+          Powered by <img src='../images/apiDojoLogo.jpg' alt="images" width="30" heigth="30">
+      `)
+      break;
+    }
+
+    return popoverContent;
+  }
+
   function createCardList(tasks) {
     tasks.forEach((task) => {
       const card = createCard(task);
@@ -57,9 +129,22 @@ $(() => {
     })
   }
 
+  function convertDate(date) {
+    const dateFrom = new Date(date);
+    const formDate = dateFrom.getFullYear()
+                    + "-" + ("0" + (dateFrom.getMonth()+1)).slice(-2)
+                    + "-" + ("0" + dateFrom.getDate()).slice(-2);
+                    
+    return formDate;
+  }
+  
+  window.cardListings.createPopoverContent = createPopoverContent;
   window.cardListings.createCardList = createCardList;
   window.cardListings.createCard = createCard;
   window.cardListings.addCardToList = addCardToList;
 
+  window.helper.convertDate = convertDate;
 })
+
+
 

@@ -20,9 +20,8 @@ module.exports = function(database) {
 
   //Add a task to the database
   router.post('/', (req, res) => {
-    let task = req.body.name;
-    // res.send("😊");
-    // categorizing(task);
+    const task = req.body.name;
+
     categorizing(task)
       .then(result => {
         const categoryId = processDuckDuckGoSearchResult(JSON.parse(result));
@@ -54,6 +53,7 @@ module.exports = function(database) {
   //Edit / Update a task
   router.post('/update', (req, res) => {
     const { taskName, category, id, date } = req.body;
+    console.log( taskName, category, id )
     database.query(database.updateTask(id, taskName, category, date).queryString)
       .then(result => res.send({ result }))
       .catch((error) => {
@@ -63,17 +63,14 @@ module.exports = function(database) {
   })
 
   //GET task details
-  router.get('/details/:taskId/:taskName', (req, res) => {
-    // console.log('request:------', req.params);
+  router.get('/details/:taskId/:taskName/:status', (req, res) => {
     const taskId = req.params.taskId;
     const taskName = req.params.taskName;
-
+    const status = req.params.status;
+    console.log('nameStatus:===', taskName);
     database.query(database.getCategoryId(taskId).queryString)
       .then((result) => {
         const categoryId = result[0].category_id;
-        
-        
-
 
         database.query(database.getCategoryName(categoryId).queryString)
           .then((result) => {
@@ -81,8 +78,8 @@ module.exports = function(database) {
 
             database.query(database.getTaskDetails(taskId, categoryName).queryString)
               .then((result) => {
-                if(result.length === 0) {
-                  
+                if(result.length === 0 || status === "changed") { //if the task does not exist in database or if the task name is changed, run api
+                  console.log('using api')
                   if(categoryId === 1){
                     yelpAPISearch(taskName)
                       .then((result) => {

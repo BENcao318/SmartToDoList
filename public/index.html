@@ -83,9 +83,16 @@
         <div class="input-group text-center">
           <input
             type="text"
-            class="form-control"
+            class="form-control w-60"
             id="new-task"
             placeholder="Enter your task"
+          />
+          <br>
+          <input
+            type="text"
+            class="form-control datepicker"
+            id="main-datepicker"
+            placeholder="Enter the date"
           />
           <button class="btn btn-primary btn-lg" id="add-task">Add</button>
         </div>
@@ -97,7 +104,7 @@
         <div class="row gx-4">
           <div
             class="col-md rounded mx-3 task-categories overflow-auto shadow "
-            id="tasklist-to-eat"
+            id="tasklist-to-eat" name = "1"
           >
           <div class = "d-flex align-items-center justify-content-center" >
             <p class="text-justify " id = "eat-heading"><h1 class="text-white ">EAT  <i class=" fa-solid fa-utensils"></i></h1></p>
@@ -106,7 +113,7 @@
 
           <div
             class="col-md rounded mx-3 task-categories overflow-auto shadow"
-            id="tasklist-to-read"
+            id="tasklist-to-read" name = "2"
           >
           <div class = "d-flex align-items-center justify-content-center">
             <p class="text-justify"><h1 class="text-white">READ  <i class="fa-solid fa-book"></i></h1></p>
@@ -115,7 +122,7 @@
 
           <div
             class="col-md rounded mx-3 task-categories overflow-auto shadow"
-            id="tasklist-to-watch"
+            id="tasklist-to-watch" name = "3"
           >
           <div class = "d-flex align-items-center justify-content-center">
             <p class="text-justify"><h1 class="text-white">WATCH  <i class="fa-solid fa-video"></i></h1></p>
@@ -124,7 +131,7 @@
 
           <div
             class="col-md rounded mx-3 task-categories overflow-auto shadow"
-            id="tasklist-to-buy"
+            id="tasklist-to-buy" name = "4"
           >
           <div class = "d-flex align-items-center justify-content-center">
             <p class="text-justify"><h1 class="text-white">BUY  <i class="fa-solid fa-cart-shopping"></i></h1></p>
@@ -158,6 +165,9 @@
                 <input type="text" class="form-control" id="task-name" name="taskName"/>
               </div>
               <div class="mb-3 ">
+                <label for="categories-select-menu" class="col-form-label">
+                  Task Category:
+                </label>
                 <select id="categories-select-menu" name="category" class="form-select">
                   <option value=1>To Eat</option>
                   <option value=2>To Read</option>
@@ -166,12 +176,8 @@
                 </select>
               </div>
               <div class="mb-3">
-                <label for="important" class="col-form-label">Important</label>
-                <input type="checkbox" id="important" name="isImportant"/>
-              </div>
-              <div class="mb-3">
                 <label for="date" class="col-form-label">Date:</label>
-                <input type="tel" class="form-control" id="date" name="date"/>
+                <input type="tel" class="form-control datepicker" id="datepicker" name="date"/>
               </div>
               <div id="edit-task-id" name="taskId"></div>
 

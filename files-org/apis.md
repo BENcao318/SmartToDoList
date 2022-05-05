@@ -59,4 +59,23 @@
 ]
 ```
 
+### Movies Search using RapidAPI by Api Dojo
+```
+{
+  d: [
+    {
+      i: [Object],
+      id: 'tt1877830',
+      l: 'The Batman',
+      q: 'feature',
+      rank: 1,
+      s: 'Robert Pattinson, Zoë Kravitz',
+      v: [Array],
+      vt: 31,
+      y: 2022
+    },
+    ...
+}
+```
+
 

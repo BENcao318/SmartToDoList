@@ -54,7 +54,7 @@ function updateTask(id, taskName, category, date) {
     UPDATE tasks
     SET name = '${taskName}', category_id = ${category}
     WHERE id = ${id}
-    RETURNING category_id;
+    RETURNING *;
   `;
 
   return {
