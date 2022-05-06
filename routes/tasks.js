@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { categorizing, yelpAPISearch, googleBooksOptions, escapeSingleQuote, moviesAPISearch,  } = require('./api/apiCalls');
+const { categorizing, yelpAPISearch, googleBooksOptions, escapeSingleQuote, moviesAPISearch, productsAPISearch, } = require('./api/apiCalls');
 const { processDuckDuckGoSearchResult } = require('./api/keywords');
 
 const googleBooksAPISearch = require('google-books-search');
@@ -20,8 +20,9 @@ module.exports = function(database) {
 
   //Add a task to the database
   router.post('/', (req, res) => {
-    const task = req.body.name;
-
+    let task = req.body.name;
+    // res.send("😊");
+    // categorizing(task);
     categorizing(task)
       .then(result => {
         const categoryId = processDuckDuckGoSearchResult(JSON.parse(result));
@@ -53,7 +54,6 @@ module.exports = function(database) {
   //Edit / Update a task
   router.post('/update', (req, res) => {
     const { taskName, category, id, date } = req.body;
-    console.log( taskName, category, id )
     database.query(database.updateTask(id, taskName, category, date).queryString)
       .then(result => res.send({ result }))
       .catch((error) => {
@@ -63,14 +63,17 @@ module.exports = function(database) {
   })
 
   //GET task details
-  router.get('/details/:taskId/:taskName/:status', (req, res) => {
+  router.get('/details/:taskId/:taskName', (req, res) => {
+    // console.log('request:------', req.params);
     const taskId = req.params.taskId;
     const taskName = req.params.taskName;
-    const status = req.params.status;
-    console.log('nameStatus:===', taskName);
+
     database.query(database.getCategoryId(taskId).queryString)
       .then((result) => {
         const categoryId = result[0].category_id;
+
+
+
 
         database.query(database.getCategoryName(categoryId).queryString)
           .then((result) => {
@@ -78,8 +81,8 @@ module.exports = function(database) {
 
             database.query(database.getTaskDetails(taskId, categoryName).queryString)
               .then((result) => {
-                if(result.length === 0 || status === "changed") { //if the task does not exist in database or if the task name is changed, run api
-                  console.log('using api')
+                if(result.length === 0) {
+
                   if(categoryId === 1){
                     yelpAPISearch(taskName)
                       .then((result) => {
@@ -126,12 +129,12 @@ module.exports = function(database) {
                               res.send(result);
                             })
                         }
-                      });  
+                      });
                   } else if(categoryId === 3) {
                     moviesAPISearch(taskName)
                       .then((result) => {
                         const apiResult = result.data.d[0];
-                        
+
                         const movieInfo = {
                           category_id: categoryId,
                           task_id: parseInt(taskId),
@@ -143,6 +146,32 @@ module.exports = function(database) {
                         }
 
                         database.query(database.addMovieDetails(movieInfo).queryString)
+                          .then((result) => {
+                            result[0]['category'] = categoryName;
+                            console.log(result[0])
+                            res.send(result);
+                          })
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                      })
+                  } else if(categoryId === 4) {
+                    productsAPISearch(taskName)
+                      .then((result) => {
+
+                        const apiResult = result.data.docs[0];
+                        console.log(result.data.docs[0])
+                        const ProductInfo = {
+                          category_id: categoryId,
+                          task_id: parseInt(taskId),
+                          price: apiResult.app_sale_price,
+                          name: apiResult.product_title,
+                          description: apiResult.product_detail_url,
+                          rating: apiResult.evaluate_rate,
+                          img: apiResult.product_main_image_url,
+                        }
+
+                        database.query(database.addProductDetails(ProductInfo).queryString)
                           .then((result) => {
                             result[0]['category'] = categoryName;
                             console.log(result[0])
@@ -166,7 +195,7 @@ module.exports = function(database) {
     // console.log(apiSearchResult)
     // res.send(apiSearchResult);
   })
-  
+
 
   return router;
 }
