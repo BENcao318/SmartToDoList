@@ -53,7 +53,7 @@ module.exports = function(database) {
   //Edit / Update a task
   router.post('/update', (req, res) => {
     const { taskName, category, id, date } = req.body;
-    console.log( taskName, category, id )
+    console.log('request----------', date )
     database.query(database.updateTask(id, taskName, category, date).queryString)
       .then(result => res.send({ result }))
       .catch((error) => {
@@ -67,7 +67,7 @@ module.exports = function(database) {
     const taskId = req.params.taskId;
     const taskName = req.params.taskName;
     const status = req.params.status;
-    console.log('nameStatus:===', taskName);
+    // console.log('nameStatus:===', taskName);
     database.query(database.getCategoryId(taskId).queryString)
       .then((result) => {
         const categoryId = result[0].category_id;
@@ -152,7 +152,7 @@ module.exports = function(database) {
                       .catch((err) => {
                         console.log(err);
                       })
-                  }
+                  } 
 
                 } else {
                   console.log('got data from database');
