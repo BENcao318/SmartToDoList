@@ -14,7 +14,7 @@ function categorizing(task) {
 
 
 
-//Yelp Search for Restaurants To Eat 
+//Yelp Search for Restaurants To Eat
 function yelpAPISearch(keyword) {
   return client.search({
     term: keyword,
@@ -24,7 +24,7 @@ function yelpAPISearch(keyword) {
     return response.jsonBody;
   }).catch(e => {
     console.log(e);
-  });  
+  });
   // client.businessMatch({
   //   name: 'Pannikin Coffee & Tea',
   //   address1: '510 N Coast Hwy 101',
@@ -76,11 +76,28 @@ function moviesAPISearch(keyword) {
       'X-RapidAPI-Key': 'f78ecbace5mshf59f58fb4f4000ap14ea9fjsndb925fd9be2b'
     }
   };
-  
+
   return axios.request(options);
 }
 
 moviesAPISearch('the batman');
+
+function productsAPISearch(keyword) {
+  const options = {
+    method: 'GET',
+    url: 'https://amazon24.p.rapidapi.com/api/product',
+    params: { categoryID: 'aps', keyword: keyword, country: "CA", page: "1" },
+    headers: {
+      'X-RapidAPI-Host': 'amazon24.p.rapidapi.com',
+      'X-RapidAPI-Key': '44d0c42b33msh107addb11e0a10bp1b6bdejsn84e350f1cc2e'
+    }
+  };
+
+  return axios.request(options);
+}
+
+productsAPISearch('iphone');
+
 
 module.exports = {
   categorizing,
@@ -88,4 +105,5 @@ module.exports = {
   yelpAPISearch,
   googleBooksOptions,
   moviesAPISearch,
+  productsAPISearch,
 }

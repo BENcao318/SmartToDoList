@@ -1,6 +1,6 @@
 $(() => {
   window.pageRender = {};
-  
+
 
   function render() {
     //popover trigger
@@ -32,7 +32,7 @@ $(() => {
     //when add-task button is pressed, call the duckduckgo api in the backend to categorize the task and return the result
     $('#add-task').on('click', () => {
       if($('#new-task').val()) {
-        let task = {}; 
+        let task = {};
         task.name = $('#new-task').val().trim();
         task = { ...task, user_id: 1, start_date: '2022-08-30', is_completed: true, is_important: true }
         addTaskToDB(task)
@@ -74,12 +74,12 @@ $(() => {
       prevTaskCategory = $('#categories-select-menu').val();
 
     })
-  
+
 
 
     $('#edit-form').on('submit', (event) => {
       event.preventDefault();
-      
+
       const data = $('#edit-form').serialize() + `&id=${$('#edit-task-id').val()}`;
       const cardId = `card-${$('#edit-task-id').val()}`;
 
@@ -97,7 +97,7 @@ $(() => {
     })
 
 
-    
+
     $('.card').draggable({
       revert: 'true',
       helper: 'clone',
@@ -114,7 +114,7 @@ $(() => {
         // add database interaction here
         $(ui.draggable).remove();
         $(`#${target}`).append(card);
-        // add helper to the dragged item so that this item can be draggable again 
+        // add helper to the dragged item so that this item can be draggable again
         $(`#${id}`).draggable({
           helper: 'clone',
         })
@@ -154,17 +154,17 @@ $(() => {
 
     switch(taskDetailCategory) {
       case 'restaurants':
-          popoverContent = (`      
+          popoverContent = (`
           <div class="popover-body" id="popover-content">
             <div>
               <h4>${taskDetail.name}</h4>
               <img src=${taskDetail.img} alt="images" width="200" height="200">
             </div>
-      
+
             <div>
               ${taskDetail.location}
             </div>
-      
+
             <div>
               Rating: ${taskDetail.rating} / 5
             </div>
@@ -173,7 +173,7 @@ $(() => {
         `)
       break;
       case 'books' :
-        popoverContent = (`      
+        popoverContent = (`
         <div class="popover-body" id="popover-content">
           <div>
             <h4>${taskDetail.name}</h4>
@@ -184,7 +184,7 @@ $(() => {
           <div>
             Author: ${taskDetail.author}
           </div>
-    
+
           <div>
             Rating: ${taskDetail.rating} / 5
           </div>
@@ -193,7 +193,7 @@ $(() => {
       `)
       break;
       case 'movies':
-        popoverContent = (`      
+        popoverContent = (`
         <div class="popover-body" id="popover-content">
           <div>
             <h4>${taskDetail.name}</h4>
@@ -203,12 +203,32 @@ $(() => {
           <div>
             Stars: ${taskDetail.actors}
           </div>
-    
+
           <div>
             Rank: ${taskDetail.rank}
           </div>
           <br>
           Powered by <img src='../images/apiDojoLogo.jpg' alt="images" width="30" heigth="30">
+      `)
+      break;
+      case 'products' :
+        popoverContent = (`
+        <div class="popover-body" id="popover-content">
+          <div>
+            <h4>${taskDetail.name}</h4>
+            <br>
+            <img src=${taskDetail.img} alt="images" width="200" height="200">
+          </div>
+          <br>
+          <div>
+            Price: ${taskDetail.price}
+          </div>
+
+          <div>
+            Rating: ${taskDetail.rating} / 5
+          </div>
+          <br>
+          Powered by <img src='../images/googleBooksIcon.png' alt="images" width="60" heigth="20">
       `)
       break;
 

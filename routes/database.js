@@ -139,6 +139,20 @@ function addMovieDetails(params) {
   }
 }
 
+function addProductDetails(params) {
+  let queryString = `
+    INSERT INTO products (id, category_id, task_id, price, name, description, rating, img)
+    VALUES (DEFAULT, ${params.category_id}, ${params.task_id}, ${params.price}, '${params.name}', '${params.description}', '${params.rating}', '${params.img}')
+    RETURNING *;
+  `;
+
+  console.log(queryString)
+
+  return {
+    queryString,
+  }
+}
+
 module.exports = {
   query: (queryString, queryParams) => {
     const start = Date.now();
@@ -163,6 +177,7 @@ module.exports = {
   addRestaurantDetails,
   addBookDetails,
   addMovieDetails,
+  addProductDetails,
 };
 
 
