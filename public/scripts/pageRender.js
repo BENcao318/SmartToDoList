@@ -18,12 +18,13 @@ $(() => {
 
         getTaskDetails({ taskId, taskName, status })
           .then((result) => {
+            console.log(result[0])
             const taskDetail = result[0];
             const taskDetailCategory = result[0].category;
 
             const $popoverContent = $(cardListings.createPopoverContent(taskDetail, taskDetailCategory)).html()
 
-            $(this).parent().parent().attr('nameStatus', 'not changed');
+            $(this).parent().parent().attr('status', 'not changed');
             $('#' + tmpId).append($popoverContent);
           })
         return $('<div>').attr('id', tmpId);
@@ -79,7 +80,7 @@ $(() => {
 
       prevTaskName = $('#task-name').val();
       prevTaskCategory = $('#categories-select-menu').val();
-
+      prevTaskDate = $('#datepicker').val();
     })
 
     //submit edit form content 
@@ -89,15 +90,16 @@ $(() => {
       const data = $('#edit-form').serialize() + `&id=${$('#edit-task-id').val()}`;
       const cardId = `card-${$('#edit-task-id').val()}`;
 
-      if(prevTaskName !== $('#task-name').val() || prevTaskCategory !== $('#categories-select-menu').val()) {
+      if(prevTaskName !== $('#task-name').val() || prevTaskCategory !== $('#categories-select-menu').val() || prevTaskDate !== $('#datepicker').val()) {
         editTask(data)
           .then(json => {
             const categoryIsChanged = prevTaskCategory !== $('#categories-select-menu').val() ? true : false;
-            changeCard(cardId, json.result[0].category_id, json.result[0].name, categoryIsChanged);
+            changeCard(cardId, json.result[0].category_id, json.result[0].name, categoryIsChanged, helper.convertDate(json.result[0].start_date));
             prevTaskName = $('#task-name').val();
             prevTaskCategory = $('#categories-select-menu').val();
+            prevTaskDate = $('#datepicker').val();
 
-            $(`#${cardId}`).attr('status', 'changed');  //change the nameStatus attribute from unchanged to changed for recalling the API to retrieve the data with new task name. 
+            $(`#${cardId}`).attr('status', 'changed');  //change the status attribute from unchanged to changed for recalling the API to retrieve the data with new task name. 
             getTasksFromDB()
               .then((res) => {
                 tasks = res.tasks;
@@ -130,6 +132,7 @@ $(() => {
           id: $(ui.draggable).attr('id').slice(5),/*task id for update  */
           category: $(this).attr('name'),/* task category for update */
           taskName: $(`#${cardId} h3`).text(),/* task name for update */
+          date: $(`#${cardId} p`).text(),/* task name for update */
         }
 
         editTask(data)/* update task in database */
@@ -156,7 +159,7 @@ $(() => {
 
   }
 
-  function changeCard(cardId, categoryId, cardName, categoryIsChanged) {
+  function changeCard(cardId, categoryId, cardName, categoryIsChanged, taskDate) {
     let kanbanId = '';
     switch (categoryId) {
       case 1:
@@ -180,12 +183,13 @@ $(() => {
       $(`#${cardId}`).remove();
       $(`#${kanbanId}`).append(copyCard);
     } else {
+      console.log('changeCARD', taskDate)
       $(`#${cardId} h3`).text(cardName);
+      $(`#${cardId} p`).text(taskDate);
     }
     //To do: only append the card when it changes category. Change the card name directly 
   }
 
   window.pageRender.render = render;
 })
-
 
