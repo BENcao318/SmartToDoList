@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { categorizing, yelpAPISearch, googleBooksOptions, escapeSingleQuote, moviesAPISearch,  } = require('./api/apiCalls');
+const { categorizing, yelpAPISearch, googleBooksOptions, escapeSingleQuote, moviesAPISearch, productsAPISearch } = require('./api/apiCalls');
 const { processDuckDuckGoSearchResult } = require('./api/keywords');
 
 const googleBooksAPISearch = require('google-books-search');
@@ -152,7 +152,33 @@ module.exports = function(database) {
                       .catch((err) => {
                         console.log(err);
                       })
-                  } 
+                  } else if(categoryId === 4) {
+                    productsAPISearch(taskName)
+                      .then((result) => {
+                        
+                        const apiResult = result.data.docs[0];
+                        console.log(result.data.docs[0])
+                        const ProductInfo = {
+                          category_id: categoryId,
+                          task_id: parseInt(taskId),
+                          price: apiResult.app_sale_price,
+                          name: apiResult.product_title,
+                          description: apiResult.product_detail_url,
+                          rating: apiResult.evaluate_rate,
+                          img: apiResult.product_main_image_url,
+                        }
+
+                        database.query(database.addProductDetails(ProductInfo).queryString)
+                          .then((result) => {
+                            result[0]['category'] = categoryName;
+                            console.log(result[0])
+                            res.send(result);
+                          })
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                      })
+                  }
 
                 } else {
                   console.log('got data from database');
