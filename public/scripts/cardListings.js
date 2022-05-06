@@ -129,7 +129,10 @@ $(() => {
           <div>
             Price: ${taskDetail.price}
           </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> ben
           <div>
             Rating: ${taskDetail.rating} / 5
           </div>
