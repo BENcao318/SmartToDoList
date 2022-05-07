@@ -25,9 +25,10 @@ $(() => {
             const $popoverContent = $(cardListings.createPopoverContent(taskDetail, taskDetailCategory)).html()
 
             $(this).parent().parent().attr('status', 'not changed');
-            $('#' + tmpId).append($popoverContent);
+            $('#' + tmpId).removeClass('loading spinner').append($popoverContent);
           })
-        return $('<div>').attr('id', tmpId);
+
+        return $('<div>').attr('id', tmpId).addClass('loading spinner');
       }
     });
 
