@@ -52,7 +52,7 @@ function deleteTask(taskId) {
 function updateTask(id, taskName, category, date) {
   let queryString = `
     UPDATE tasks
-    SET name = '${taskName}', category_id = ${category}
+    SET name = '${taskName}', category_id = ${category}, start_date = '${date}'
     WHERE id = ${id}
     RETURNING *;
   `;

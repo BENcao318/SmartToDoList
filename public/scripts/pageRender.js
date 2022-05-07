@@ -14,15 +14,16 @@ $(() => {
         const taskId = $(this)[0].id.slice(8);
         const taskName = ($(this).parent().attr('name'));
         let tmpId = 'tmp-id-' + $.now();
+        const status = $(this).parent().parent().attr('status');
 
-        getTaskDetails({ taskId, taskName })
+        getTaskDetails({ taskId, taskName, status })
           .then((result) => {
             const taskDetail = result[0];
             const taskDetailCategory = result[0].category;
-            console.log(taskDetail);
 
-            const $popoverContent = $(createPopoverContent(taskDetail, taskDetailCategory)).html()
+            const $popoverContent = $(cardListings.createPopoverContent(taskDetail, taskDetailCategory)).html()
 
+            $(this).parent().parent().attr('status', 'not changed');
             $('#' + tmpId).append($popoverContent);
           })
         return $('<div>').attr('id', tmpId);
@@ -33,16 +34,20 @@ $(() => {
     $('#add-task').on('click', () => {
       if($('#new-task').val()) {
         let task = {};
-        task.name = $('#new-task').val().trim();
-        task = { ...task, user_id: 1, start_date: '2022-08-30', is_completed: true, is_important: true }
+        let date = $('#main-datepicker').val() ? $('#main-datepicker').val() : '2022-08-30';
+
+        task = { name: $('#new-task').val().trim(), user_id: 1, start_date: date, is_completed: true, is_important: true }
+
         addTaskToDB(task)
           .then((response) => {
-            // console.log('response', response)
+
             if(response.category_id){
               tasks.push(response);
               let card = cardListings.createCard(response);
+
               cardListings.addCardToList(card, response.category_id);
               $('#new-task').val('');
+              $('#main-datepicker').val('');
             }
           });
       }
@@ -65,35 +70,45 @@ $(() => {
       const parentId = $(e.target.parentElement).attr('id');
       const taskId = Number(parentId.slice(5));
       const targetTask = tasks.find(task => task.id === taskId);
+      const taskDate = targetTask.start_date;
 
       $('#task-name').val(targetTask.name);
       $('#categories-select-menu').val(targetTask.category_id);
       $('#edit-task-id').val(taskId);
+      $('#datepicker').val(helper.convertDate(taskDate));
 
       prevTaskName = $('#task-name').val();
       prevTaskCategory = $('#categories-select-menu').val();
 
     })
 
-
-
+    //submit edit form content
     $('#edit-form').on('submit', (event) => {
       event.preventDefault();
 
       const data = $('#edit-form').serialize() + `&id=${$('#edit-task-id').val()}`;
       const cardId = `card-${$('#edit-task-id').val()}`;
 
-      if(prevTaskCategory === $('#task-name').val() || prevTaskCategory === $('#categories-select-menu').val()) {
-        $('.modal').modal('toggle');
-      } else {
+      if(prevTaskName !== $('#task-name').val() || prevTaskCategory !== $('#categories-select-menu').val() || prevTaskDate !== $('#datepicker').val()) {
         editTask(data)
           .then(json => {
-            changeCardCategory(cardId, json.result[0].category_id);
+            const categoryIsChanged = prevTaskCategory !== $('#categories-select-menu').val() ? true : false;
+            changeCard(cardId, json.result[0].category_id, json.result[0].name, categoryIsChanged, helper.convertDate(json.result[0].start_date));
             prevTaskName = $('#task-name').val();
             prevTaskCategory = $('#categories-select-menu').val();
+            prevTaskDate = $('#datepicker').val();
+
+            $(`#${cardId}`).attr('status', 'changed');  //change the status attribute from unchanged to changed for recalling the API to retrieve the data with new task name.
+            getTasksFromDB()
+              .then((res) => {
+                tasks = res.tasks;
+            })
+
             $('.modal').modal('toggle');
           })
-      }
+        } else {
+          $('.modal').modal('toggle');
+        }
     })
 
 
@@ -107,15 +122,31 @@ $(() => {
 
     $('.task-categories').droppable({
       drop: function(event, ui) {
-        const id = 'card-' + $(ui.draggable).attr('id').slice(5);
-        const card = $(`#${id}`)[0];
-        const target = $(this).attr('id');
+        const cardId = 'card-' + $(ui.draggable).attr('id').slice(5);
+        const card = $(`#${cardId}`)[0];
+        const targetId = $(this).attr('id');
 
-        // add database interaction here
+        //database interaction for updating the categories
+        const data = {
+          id: $(ui.draggable).attr('id').slice(5),/*task id for update  */
+          category: $(this).attr('name'),/* task category for update */
+          taskName: $(`#${cardId} h3`).text(),/* task name for update */
+          date: $(`#${cardId} p`).text(),/* task name for update */
+        }
+
+        editTask(data)/* update task in database */
+
+        $(`#${cardId}`).attr('status', 'changed');
         $(ui.draggable).remove();
-        $(`#${target}`).append(card);
+        $(`#${targetId}`).append(card);
+
+        getTasksFromDB()
+          .then((res) => {
+            tasks = res.tasks;
+          })
+
         // add helper to the dragged item so that this item can be draggable again
-        $(`#${id}`).draggable({
+        $(`#${cardId}`).draggable({
           helper: 'clone',
         })
 
@@ -123,9 +154,11 @@ $(() => {
       }
     })
 
+    $( ".datepicker" ).datepicker();
+
   }
 
-  function changeCardCategory(cardId, categoryId) {
+  function changeCard(cardId, categoryId, cardName, categoryIsChanged, taskDate) {
     let kanbanId = '';
     switch (categoryId) {
       case 1:
@@ -143,98 +176,16 @@ $(() => {
     }
 
     //copy the card to edit and append it to target category kanban then remove the card from the original kanban
-    let copyCard = $(`#${cardId}`).clone();
-    $(`#${cardId}`).remove();
-    $(`#${kanbanId}`).append(copyCard);
 
-  }
-
-  function createPopoverContent(taskDetail, taskDetailCategory) {
-    let popoverContent = ``;
-
-    switch(taskDetailCategory) {
-      case 'restaurants':
-          popoverContent = (`
-          <div class="popover-body" id="popover-content">
-            <div>
-              <h4>${taskDetail.name}</h4>
-              <img src=${taskDetail.img} alt="images" width="200" height="200">
-            </div>
-
-            <div>
-              ${taskDetail.location}
-            </div>
-
-            <div>
-              Rating: ${taskDetail.rating} / 5
-            </div>
-            <br>
-            Powered by <img src='../images/yelpLogo.png' alt="images" width="60" heigth="20">
-        `)
-      break;
-      case 'books' :
-        popoverContent = (`
-        <div class="popover-body" id="popover-content">
-          <div>
-            <h4>${taskDetail.name}</h4>
-            <br>
-            <img src=${taskDetail.img} alt="images" width="200" height="200">
-          </div>
-          <br>
-          <div>
-            Author: ${taskDetail.author}
-          </div>
-
-          <div>
-            Rating: ${taskDetail.rating} / 5
-          </div>
-          <br>
-          Powered by <img src='../images/googleBooksIcon.png' alt="images" width="60" heigth="20">
-      `)
-      break;
-      case 'movies':
-        popoverContent = (`
-        <div class="popover-body" id="popover-content">
-          <div>
-            <h4>${taskDetail.name}</h4>
-            <img src=${taskDetail.img} alt="images" width="200" height="200">
-          </div>
-          <br>
-          <div>
-            Stars: ${taskDetail.actors}
-          </div>
-
-          <div>
-            Rank: ${taskDetail.rank}
-          </div>
-          <br>
-          Powered by <img src='../images/apiDojoLogo.jpg' alt="images" width="30" heigth="30">
-      `)
-      break;
-      case 'products' :
-        popoverContent = (`
-        <div class="popover-body" id="popover-content">
-          <div>
-            <h4>${taskDetail.name}</h4>
-            <br>
-            <img src=${taskDetail.img} alt="images" width="200" height="200">
-          </div>
-          <br>
-          <div>
-            Price: ${taskDetail.price}
-          </div>
-
-          <div>
-            Rating: ${taskDetail.rating} / 5
-          </div>
-          <br>
-          Powered by <img src='../images/googleBooksIcon.png' alt="images" width="60" heigth="20">
-      `)
-      break;
-
+    if(categoryIsChanged) {
+      let copyCard = $(`#${cardId}`).clone();
+      $(`#${cardId}`).remove();
+      $(`#${kanbanId}`).append(copyCard);
+    } else {
+      $(`#${cardId} h3`).text(cardName);
+      $(`#${cardId} p`).text(taskDate);
     }
-
-    return popoverContent;
+    //To do: only append the card when it changes category. Change the card name directly
   }
 
   window.pageRender.render = render;

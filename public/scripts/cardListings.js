@@ -117,6 +117,29 @@ $(() => {
           Powered by <img src='../images/apiDojoLogo.jpg' alt="images" width="30" heigth="30">
       `)
       break;
+      case 'products' :
+        popoverContent = (`
+        <div class="popover-body" id="popover-content">
+          <div>
+            <h4>${taskDetail.name}</h4>
+            <br>
+            <img src=${taskDetail.img} alt="images" width="200" height="200">
+          </div>
+          <br>
+          <div>
+            Price: ${taskDetail.price}
+          </div>
+<<<<<<< HEAD
+
+=======
+>>>>>>> ben
+          <div>
+            Rating: ${taskDetail.rating} / 5
+          </div>
+          <br>
+          Powered by <img src='../images/googleBooksIcon.png' alt="images" width="60" heigth="20">
+      `)
+      break;
     }
 
     return popoverContent;
