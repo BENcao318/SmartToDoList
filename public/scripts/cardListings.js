@@ -129,15 +129,11 @@ $(() => {
           <div>
             Price: ${taskDetail.price}
           </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> ben
           <div>
             Rating: ${taskDetail.rating} / 5
           </div>
           <br>
-          Powered by <img src='../images/googleBooksIcon.png' alt="images" width="60" heigth="20">
+          Powered by <img src='../images/amazon-logo-a-smile-black.png' alt="images" width="30" heigth="30">
       `)
       break;
     }

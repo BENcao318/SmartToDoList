@@ -194,12 +194,3 @@ $(() => {
   window.pageRender.render = render;
 })
 
-e);
-      $(`#${cardId} p`).text(taskDate);
-    }
-    //To do: only append the card when it changes category. Change the card name directly 
-  }
-
-  window.pageRender.render = render;
-})
-

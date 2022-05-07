@@ -78,4 +78,39 @@
 }
 ```
 
+### Products Search using RapiAPI by Amazon24
+```
+{
+  docs: [
+    {
+      isBestSeller: false,
+      product_title:
+        "Apple Smart Battery Case with Wireless Charging (for iPhone 11 Pro Max) - White",
+      product_main_image_url:
+        "https://m.media-amazon.com/images/I/41XbH-sVWPL._AC_UL320_.jpg",
+      app_sale_price: "179.00",
+      app_sale_price_currency: "$",
+      isPrime: true,
+      product_detail_url: "https://www.amazon.ca/dp/B081SHT8CL",
+      product_id: "B081SHT8CL",
+      evaluate_rate: "4.5 out of 5 stars",
+      original_price: null,
+    },
+    {
+      isBestSeller: false,
+      product_title:
+        "Apple Silicone Case with MagSafe (for iPhone 13 Pro Max) - Pink Pomelo",
+      product_main_image_url:
+        "https://m.media-amazon.com/images/I/61looSG6MRL._AC_UL320_.jpg",
+      app_sale_price: "69.99",
+      app_sale_price_currency: "$",
+      isPrime: true,
+      product_detail_url: "https://www.amazon.ca/dp/B09G7GS1WY",
+      product_id: "B09G7GS1WY",
+      evaluate_rate: "4.5 out of 5 stars",
+      original_price: null,
+    },
+  ];
+}
+```
 
