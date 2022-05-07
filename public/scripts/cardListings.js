@@ -7,23 +7,23 @@ $(() => {
     return `
       <div class="card mt-2 mb-2 shadow bg-light" id="card-${task.id}" status="not changed">
         <div class="card-body wrap" id="task-${task.id}" name="${task.name}">
-        
+
           <h3 id="popover-task-name">${task.name}</h3>
           <p>${task.start_date}</p>
 
-          <a 
-            href="#" 
+          <a
+            href="#"
             rel="popover"
             class="popover-details"
             id="content-${task.id}"
           ></a>
 
-          <button         
+          <button
             class="btn btn-primary btn-sm edit-btn"
             data-bs-toggle="modal"
             data-bs-target="#task"
           > Edit </button>
-          
+
           <button
             class="btn btn-primary btn-sm delete" id="delete-${task.id}"
           > <i class="fa-solid fa-trash-can"></i>
@@ -37,16 +37,16 @@ $(() => {
   function addCardToList(card, taskCategory) {
 
     switch(taskCategory) {
-      case 1: 
+      case 1:
         $("#tasklist-to-eat").append(card);
         break;
-      case 2: 
+      case 2:
         $("#tasklist-to-read").append(card);
         break;
-      case 3: 
+      case 3:
         $("#tasklist-to-watch").append(card);
         break;
-      case 4: 
+      case 4:
         $("#tasklist-to-buy").append(card);
         break;
     }
@@ -57,17 +57,17 @@ $(() => {
 
     switch(taskDetailCategory) {
       case 'restaurants':
-          popoverContent = (`      
+          popoverContent = (`
           <div class="popover-body" id="popover-content">
             <div>
               <h4>${taskDetail.name}</h4>
               <img src=${taskDetail.img} alt="images" width="200" height="200">
             </div>
-      
+
             <div>
               ${taskDetail.location}
             </div>
-      
+
             <div>
               Rating: ${taskDetail.rating} / 5
             </div>
@@ -76,7 +76,7 @@ $(() => {
         `)
       break;
       case 'books' :
-        popoverContent = (`      
+        popoverContent = (`
         <div class="popover-body" id="popover-content">
           <div>
             <h4>${taskDetail.name}</h4>
@@ -87,7 +87,7 @@ $(() => {
           <div>
             Author: ${taskDetail.author}
           </div>
-    
+
           <div>
             Rating: ${taskDetail.rating} / 5
           </div>
@@ -96,7 +96,7 @@ $(() => {
       `)
       break;
       case 'movies':
-        popoverContent = (`      
+        popoverContent = (`
         <div class="popover-body" id="popover-content">
           <div>
             <h4>${taskDetail.name}</h4>
@@ -106,7 +106,7 @@ $(() => {
           <div>
             Stars: ${taskDetail.actors}
           </div>
-    
+
           <div>
             Year: ${taskDetail.year_created}
           </div>
@@ -127,17 +127,13 @@ $(() => {
           </div>
           <br>
           <div>
-            Price: ${taskDetail.price}
+            Price: $${taskDetail.price}
           </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> ben
           <div>
-            Rating: ${taskDetail.rating} / 5
+            Rating: ${taskDetail.rating}
           </div>
           <br>
-          Powered by <img src='../images/googleBooksIcon.png' alt="images" width="60" heigth="20">
+          Powered by <img src='../images/AmazonLogo.png' alt="images" width="60" heigth="20">
       `)
       break;
     }
@@ -157,10 +153,10 @@ $(() => {
     const formDate = dateFrom.getFullYear()
                     + "-" + ("0" + (dateFrom.getMonth()+1)).slice(-2)
                     + "-" + ("0" + dateFrom.getDate()).slice(-2);
-                    
+
     return formDate;
   }
-  
+
   window.cardListings.createPopoverContent = createPopoverContent;
   window.cardListings.createCardList = createCardList;
   window.cardListings.createCard = createCard;
