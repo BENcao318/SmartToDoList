@@ -21,9 +21,6 @@ function processDuckDuckGoSearchResult(result) {
     categoryId = keywordSearching(keyword.toLowerCase());
   }
 
-  // console.log(result.RelatedTopics[0])
-  // console.log('keyword------:', keyword);
-
   return categoryId;
 }
 

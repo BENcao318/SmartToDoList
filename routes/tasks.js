@@ -188,9 +188,6 @@ module.exports = function(database) {
               })
           })
       })
-    // const apiSearchResult = ;
-    // console.log(apiSearchResult)
-    // res.send(apiSearchResult);
   })
 
 
