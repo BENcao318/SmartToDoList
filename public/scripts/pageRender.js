@@ -18,15 +18,17 @@ $(() => {
 
         getTaskDetails({ taskId, taskName, status })
           .then((result) => {
+            console.log(result[0])
             const taskDetail = result[0];
             const taskDetailCategory = result[0].category;
 
             const $popoverContent = $(cardListings.createPopoverContent(taskDetail, taskDetailCategory)).html()
 
             $(this).parent().parent().attr('status', 'not changed');
-            $('#' + tmpId).append($popoverContent);
+            $('#' + tmpId).removeClass('loading spinner').append($popoverContent);
           })
-        return $('<div>').attr('id', tmpId);
+
+        return $('<div>').attr('id', tmpId).addClass('loading spinner');
       }
     });
 
@@ -79,7 +81,7 @@ $(() => {
 
       prevTaskName = $('#task-name').val();
       prevTaskCategory = $('#categories-select-menu').val();
-
+      prevTaskDate = $('#datepicker').val();
     })
 
     //submit edit form content 
@@ -182,6 +184,7 @@ $(() => {
       $(`#${cardId}`).remove();
       $(`#${kanbanId}`).append(copyCard);
     } else {
+      console.log('changeCARD', taskDate)
       $(`#${cardId} h3`).text(cardName);
       $(`#${cardId} p`).text(taskDate);
     }
@@ -191,4 +194,12 @@ $(() => {
   window.pageRender.render = render;
 })
 
+e);
+      $(`#${cardId} p`).text(taskDate);
+    }
+    //To do: only append the card when it changes category. Change the card name directly 
+  }
+
+  window.pageRender.render = render;
+})
 
