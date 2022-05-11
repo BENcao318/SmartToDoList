@@ -43,4 +43,27 @@ You can also click on each task and retrieve the related task details fetched au
 
 ## Showcase
 
+Auto-Categorizing: Restaurant
+!["Auto-Categorizing: Restaurants"](https://github.com/BENcao318/SmartToDoList/tree/master/docs/Auto-categorizing_%20Restaurants.gif)
+
+Auto-Categorizing: Books
+!["Auto-Categorizing: Books"](https://github.com/BENcao318/SmartToDoList/blob/master/docs/Auto-Categorizing_%20books%20.gif)
+
+Auto-Categorizing: Videos
+!["Auto-Categorizing: Videos"](https://github.com/BENcao318/SmartToDoList/blob/master/docs/Auto-Categorizing_%20videos.gif)
+
+Auto-Categorizing: Products
+!["Auto-Categorizing: Products"](https://github.com/BENcao318/SmartToDoList/blob/master/docs/Auto-Categorizing_%20products.gif)
+
+Edit Category
+!["Change Category"](https://github.com/BENcao318/SmartToDoList/blob/master/docs/Change%20Category.gif)
+
+Details Fetching
+!["Details Fetching"](https://github.com/BENcao318/SmartToDoList/blob/master/docs/details%20fetching.gif)
+
+Delete Card
+!["Delete Card"](https://github.com/BENcao318/SmartToDoList/blob/master/docs/Delete%20card.gif)
+
+Drag and Drop
+!["Drag and Drop"](https://github.com/BENcao318/SmartToDoList/blob/master/docs/Drag%20and%20Drop.gif)
 
