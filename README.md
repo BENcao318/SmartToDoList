@@ -44,7 +44,7 @@ You can also click on each task and retrieve the related task details fetched au
 ## Showcase
 
 #### Auto-Categorizing: Restaurant
-!["Auto-Categorizing: Restaurants"](https://github.com/BENcao318/SmartToDoList/tree/master/docs/Auto-categorizing_%20Restaurants.gif)
+!["Auto-Categorizing: Restaurants"](https://github.com/BENcao318/SmartToDoList/blob/master/docs/Auto-categorizing_%20Restaurants.gif)
 
 #### Auto-Categorizing: Books
 !["Auto-Categorizing: Books"](https://github.com/BENcao318/SmartToDoList/blob/master/docs/Auto-Categorizing_%20books%20.gif)
