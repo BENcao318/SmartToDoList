@@ -4,7 +4,7 @@ My Smart To Do
 ## Project Introduction
 
 Welcome to the Smart-To-Do list!
-This app allows you to add your task without specifying the category, it will do it for you! 
+This jquery based app allows you to add your task without specifying the category, it will do it for you! 
 The app categorize tasks into 4 categories: To Eat, To Read, To watch and To Buy. You can simply enter the name of the task and the app will smartly add it to where it belongs. For example, when you enter 'Starbucks', the app will auto categorize it as an restaurant and add the task under that category.
 You can also click on each task and retrieve the related task details fetched automatically by the app.
 
@@ -28,7 +28,8 @@ You can also click on each task and retrieve the related task details fetched au
 
 ## Dependencies
 
-- Node 10.x or above
+- Node 10.x or above 
+- Jquery 3.6.0 or above 
 - NPM 5.x or above
 - PG 6.x
 - BODY-PARSER 1.20
